@@ -1,0 +1,63 @@
+.to-do-list {
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    overflow: auto;
+    max-height: 400px;
+    .done {
+        h4 {
+            text-decoration: line-through;
+            color:#979797;
+        }
+    }
+    .edit-mode {
+        display: flex;
+        gap: 5px;
+        input {
+            padding: 10px;
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            width: 60%;
+        }
+        button {
+            font-size: 14px;
+            min-width: 100px;
+            color: white;
+            background-color: #2d2d2d;
+            padding: 5px;
+            border-radius: 3px;
+            border: none;
+            height: 40px;
+    }
+    }
+    .btns {
+        display: flex;
+        gap: 10px;
+        button {
+            font-size: 14px;
+            // font-weight: 700;
+            min-width: 100px;
+            color: white;
+            background-color: #2d2d2d;
+            padding: 5px;
+            border-radius: 3px;
+            border: none;
+            height: 40px;
+        }
+    }
+    li {
+        justify-content: center;
+        align-items: center;
+        border-bottom: #c7c7c7 0.5px solid;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgb(227, 227, 227);
+        padding: 10px;
+        width: 100%;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
