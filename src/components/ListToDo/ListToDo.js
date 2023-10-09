@@ -4,7 +4,7 @@ import './ListToDo.scss'
 // Использую для этого React transition group
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // Иконки SVG
 import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
