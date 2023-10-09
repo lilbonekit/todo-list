@@ -12,7 +12,7 @@ import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
 // Добавим смски
 import Messages from '../Messages/Messages'
 
-const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered}) => {
+const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered}) => {
 
     const [editId, setEditId] = useState(null)
     const [newInputValue, setNewInputValue] = useState("")
@@ -20,7 +20,7 @@ const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, se
 
     // Функции по удалению, редактированию пишем здесь
     // Лучше, чтобы айди был изначально, а не задавать его в мэп, а то будет поебота потом
-    // Еще один скользкий момент. Теперь тут нужно удалять из нефильтрованного списка)))
+    // Удалять из нефильтрованного списка
     const deleteToDo = (id) => {
         let newToDo = toDo.filter(item => item.id !== id)
 
@@ -37,7 +37,8 @@ const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, se
             return item
         })
 
-        setToDo(newToDo)
+        // Тоже самое, обновляем стейт нефильтрованного списка
+        setFromUnfiltered(newToDo)
         // Это сработало
         onPerfomSearch(newToDo, query, filter)
     }
@@ -65,6 +66,7 @@ const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, se
             return item
         })
 
+        // Тоже самое, обновляем стейт нефильтрованного списка
         setFromUnfiltered(newToDo)
         setEditId(null)
     }

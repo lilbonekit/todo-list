@@ -6,7 +6,8 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
     const [query, setQuery] = useState("")
     const [filter, setFilter] = useState("")
     
-
+    // Передаем эти параметры выше, чтобы вызывать с ними onPerfomSearch в другом компоненте,
+    // Если там произошли изменения списка
     useEffect(() => {
         setToProps({
             query,
@@ -14,6 +15,7 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
         })
     }, [query, filter])
 
+    // Выполняем фильрацию, при изменениях этих параметров
     useEffect(() => {
         onPerfomSearch(toDo, query, filter)
     }, [toDo, filter, query])
