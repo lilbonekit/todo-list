@@ -6,7 +6,7 @@ import Header from './components/Header/Header';
 import AddToDo from './components/AddToDo/AddToDo';
 import ListToDo from './components/ListToDo/ListToDo';
 import Search from './components/Search/Search';
-
+import ModalWindow from './components/ModalWindow/ModalWindow';
 
 // Поскольку работать со стейтом будет каждый компонент,
 // то нужно хранить его где-то высоко
@@ -18,6 +18,20 @@ function App() {
 
   // Объект с настройками для вызова onPerfomSearch после фильтрации
   const [toProps, setToProps] = useState({})
+
+  // Создадим стейт для модалки с удалением
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [deletedId, setDeletedId] = useState(null)
+    
+  // Функции по удалению, редактированию пишем здесь
+  // Лучше, чтобы айди был изначально, а не задавать его в мэп, а то будет поебота потом
+  // Удалять из нефильтрованного списка
+  const deleteToDo = (id) => {
+    let newToDo = toDo.filter(item => item.id !== id)
+
+    // Это сработало
+    setToDo(newToDo)
+  }
 
   // Напишу функцию для поиска и фильтров.
   // Выводить буду всегда отфильтрованные данные.
@@ -52,6 +66,11 @@ function App() {
   
   return (
     <div className="App">
+        <ModalWindow
+          deleteToDo={deleteToDo}
+          deletedId={deletedId}
+          showDeleteModal={showDeleteModal}
+          setShowDeleteModal={setShowDeleteModal}/>
         <Header
           // Получить кол-во всех элементов
           toDo={toDo}/>
@@ -63,6 +82,10 @@ function App() {
           toDo={toDo}
           setToProps={setToProps}/>
         <ListToDo
+          // Переносим выше метод с удалением, но нам все равно нужно получить айди
+          // И так же мне нужно установить модалку для удаления активной
+          setDeletedId={setDeletedId}
+          setShowDeleteModal={setShowDeleteModal}
           // Отображаем отфильтроавнные данные на основе изначальных
           toDo={filteredItem}
           // Поскольку у нас в этом компоненте есть возможность, менять стейт со списком

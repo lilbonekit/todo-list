@@ -1,0 +1,63 @@
+@import '../../index.scss';
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 500;
+    text-align: center;
+    &__content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .btns {
+        margin-top: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal {
+        &__content {
+            width: 360px;
+            gap: 0;
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.modal-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.modal-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+}
+  
+.modal-exit {
+    opacity: 1;
+}
+  
+.modal-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+}

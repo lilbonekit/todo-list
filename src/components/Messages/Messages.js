@@ -1,8 +1,10 @@
 import './Messages.scss'
 
-const Messages = ({messageText}) => {
+const Messages = ({children}) => {
     return(
-        <><h2 className="message">{messageText}</h2></>
+        <>
+            {children}
+        </>
     )
 }
 

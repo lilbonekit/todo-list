@@ -1,11 +1,14 @@
 import './AddToDo.scss'
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
 
 const AddToDo = ({setToDo, toDo}) => {
 
     const [inputValue, setInputValue] = useState('')
+
+    // Добавлю еще состояние для ошибки инпута. Этот код повториться в ListToDo
+    const [inputError, setInputError] = useState(false)
     
     // Делаем инпут управляемым
     // При онКлике обновляем стейт с инпута
@@ -15,11 +18,13 @@ const AddToDo = ({setToDo, toDo}) => {
     const saveToDo = () => {
 
         if(inputValue.trim().length === 0) {
-            return alert('ебалай')
+            setInputError(true)
+            return
         }
 
         if(inputValue.trim().length > 50) {
-            return alert('Ну совесть блять имей пидорас нахуй')
+            setInputError(true)
+            return
         }
 
         setToDo([
@@ -35,11 +40,15 @@ const AddToDo = ({setToDo, toDo}) => {
 
     return(
         <div className="add-to-do">
-            <input 
-                type="text" 
-                placeholder="Add your task"
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}/>
+            <input
+                    className={inputError ? "error" : ""} 
+                    type="text" 
+                    placeholder="Add your task"
+                    value={inputValue}
+                    onChange={e => {
+                            setInputError(false)
+                            setInputValue(e.target.value)
+                        }}/>
             <button onClick={saveToDo}>Save</button>
         </div>
     )

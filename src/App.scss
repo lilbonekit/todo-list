@@ -24,8 +24,8 @@
 /* Для Firefox браузера */
 /* Обратите внимание, что для Firefox используются другие вендорные префиксы */
 /* И этот стиль может не поддерживаться в будущих версиях Firefox */
-scrollbar-width: thin; /* Тонкая полоса прокрутки */
-scrollbar-color: #888 #f1f1f1; /* Цвет полосы и трека */
+  scrollbar-width: thin; /* Тонкая полоса прокрутки */
+  scrollbar-color: #888 #f1f1f1; /* Цвет полосы и трека */
 
 }
 
@@ -47,12 +47,20 @@ input {
   width: 40%;
 }
 
+.error {
+  border: 1px solid var(--red, #E23226);
+  box-shadow: 0px 4px 30px 0px rgba(224, 48, 30, 0.40);
+}
+
+button {
+  cursor: pointer;
+}
+
 .btns {
   display: flex;
   gap: 10px;
   button {
       font-size: 14px;
-      cursor: pointer;
       min-width: 100px;
       color: white;
       background-color: #2d2d2d;
@@ -67,5 +75,10 @@ input {
   }
   .outline-white {
       border: 1px solid white;
+  }
+  .outline-black {
+      border: 1px solid #2d2d2d;
+      background: transparent;
+      color: #2d2d2d;
   }
 }

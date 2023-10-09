@@ -12,22 +12,15 @@ import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
 // Добавим смски
 import Messages from '../Messages/Messages'
 
-const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered}) => {
+const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered, setDeletedId, setShowDeleteModal}) => {
 
     const [editId, setEditId] = useState(null)
     const [newInputValue, setNewInputValue] = useState("")
+
+    // Установим состояния ошибки инпута
+    const [inputError, setInputError] = useState(false)
+
     
-
-    // Функции по удалению, редактированию пишем здесь
-    // Лучше, чтобы айди был изначально, а не задавать его в мэп, а то будет поебота потом
-    // Удалять из нефильтрованного списка
-    const deleteToDo = (id) => {
-        let newToDo = toDo.filter(item => item.id !== id)
-
-        // Это сработало
-        setFromUnfiltered(newToDo)
-    }
-
     // Изменение статуса
     const statusToDo = (id) => {
         let newToDo = toDo.filter(item => {
@@ -51,35 +44,14 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
         setNewInputValue(title.trim())
     }
 
-/*     const saveToDo = (id) => {
-
-        const todoToUpdate = toDo.find(item => item.id === id)
-
-        if (newInputValue.trim().length === 0 || newInputValue.trim().length > 50) {
-            console.error("Некорректные данные. Заголовок должен быть от 1 до 50 символов и не может быть пустым.");
-        }
-
-        let newToDo = toDo.map(item => {
-            if(item.id === id) {
-                item.title = newInputValue
-            }
-            return item
-        })
-
-        // Тоже самое, обновляем стейт нефильтрованного списка
-        setFromUnfiltered(newToDo)
-        setEditId(null)
-    } */
     const saveToDo = (id) => {
         // Получите объект todo, который нужно обновить
         const todoToUpdate = toDo.find(item => item.id === id);
         
         // Проверьте условия валидации перед обновлением
         if (newInputValue.trim().length === 0 || newInputValue.trim().length > 50) {
-            // Выведите сообщение об ошибке или выполните другие необходимые действия
-            // Например, показать пользователю сообщение о некорректных данных
-            alert('Некорректные данные. Заголовок должен быть от 1 до 50 символов и не может быть пустым')
-            console.error("Некорректные данные. Заголовок должен быть от 1 до 50 символов и не может быть пустым.");
+            setInputError(true)
+            return
         } else {
             // Если данные прошли валидацию, обновите todo с новым значением
             const updatedTodo = {
@@ -96,7 +68,9 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
     
 
 
-    const message = toDo.length === 0 ? <Messages messageText={"No items"}/> : null
+    const message = toDo.length === 0 ? 
+    <Messages/> :
+    null
 
     return(
         <> 
@@ -116,7 +90,13 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                                 {
                                     editId === item.id ?
                                     <div className="edit-mode">
-                                        <input value={newInputValue} onChange={e => setNewInputValue(e.target.value)}/>
+                                        <input
+                                            className={inputError ? "error" : null} 
+                                            value={newInputValue} 
+                                            onChange={e => {
+                                                    setNewInputValue(e.target.value)
+                                                    setInputError(false)
+                                                }}/>
                                         <button onClick={() => saveToDo(item.id)}>Save</button>
                                         <button onClick={() => setEditId(null)}>Discard</button>
                                     </div>  :
@@ -149,7 +129,10 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                                         </button>
                                         <button
                                             data-button="delete" 
-                                            onClick={() => deleteToDo(item.id)}>
+                                            onClick={() => {
+                                                    setDeletedId(item.id)
+                                                    setShowDeleteModal(true)
+                                                }}>
                                                 <DeleteIcon/>
                                                 <p>Delete</p>
                                         </button>
@@ -166,7 +149,9 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                 timeout={500}
                 // Оставил компонент не размонтированным, чтобы верстка не прыгала
                 /* unmountOnExit */>
-                <Messages messageText={"No items"} />
+                <Messages>
+                    <h2 className="message">No items</h2>
+                </Messages>
             </CSSTransition>
         </>
     )
