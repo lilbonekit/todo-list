@@ -17,26 +17,14 @@ const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, se
     const [editId, setEditId] = useState(null)
     const [newInputValue, setNewInputValue] = useState("")
     
-    // Тестовая переменная. Логика такая:
-    // Создаём флаг изменений и отслеживаем их
-    // Если в Удалении, Переименовки, Изменении статуса, происходят изменения, то
-    // Записываем эти изменения в LocalStorage, меняем флаг
-    // Изменение флага отслеживает useEffect
-    const [wasChanged, setWasChanged] = useState(false)
 
     // Функции по удалению, редактированию пишем здесь
     // Лучше, чтобы айди был изначально, а не задавать его в мэп, а то будет поебота потом
     // Еще один скользкий момент. Теперь тут нужно удалять из нефильтрованного списка)))
     const deleteToDo = (id) => {
         let newToDo = toDo.filter(item => item.id !== id)
+
         // Это сработало
-
-/*         if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('params.filteredItem', JSON.stringify(newToDo))
-        } */
-
-        setWasChanged(true)
-
         setFromUnfiltered(newToDo)
     }
 
@@ -48,12 +36,6 @@ const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, se
             }
             return item
         })
-
-    /*     if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('params.filteredItem', JSON.stringify(newToDo))
-        } */
-
-        setWasChanged(true)
 
         setToDo(newToDo)
         // Это сработало
@@ -82,21 +64,11 @@ const ListToDo = ({toDo, setToDo, onPerfomSearch, toProps: { filter, query }, se
             }
             return item
         })
-/* 
-        if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('params.filteredItem', JSON.stringify(newToDo))
-        }
- */
-        setWasChanged(true)
+
         setFromUnfiltered(newToDo)
         setEditId(null)
     }
 
-    // Извлечение данных из localStorage и вызов функции saveToDo при загрузке компонента
-/*     useEffect(() => {
-        setFromUnfiltered(JSON.parse(localStorage.getItem('params.filteredItem')))
-        setWasChanged(false)
-    }, [wasChanged]); */
 
     const message = toDo.length === 0 ? <Messages messageText={"No items"}/> : null
 

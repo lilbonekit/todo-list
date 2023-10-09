@@ -7,7 +7,6 @@ const AddToDo = ({setToDo, toDo}) => {
 
     const [inputValue, setInputValue] = useState('')
     
-    
     // Делаем инпут управляемым
     // При онКлике обновляем стейт с инпута
     // Для уникального id используем библиотеку uuid
@@ -23,11 +22,13 @@ const AddToDo = ({setToDo, toDo}) => {
             return alert('Ну совесть блять имей пидорас нахуй')
         }
 
-        setToDo([...toDo, {
-            id: uuidv4(),
-            title: inputValue.trim(),
-            status: false
-        }])
+        setToDo([
+            {
+                id: uuidv4(),
+                title: inputValue.trim(),
+                status: false
+            },
+            ...toDo])
 
         setInputValue('')
     }

@@ -39,7 +39,6 @@ function App() {
     setFilteredItem(newArray);
   };
 
-  // Весь LocalStorage удалось реализовать в компоненте поиска
   
   return (
     <div className="App">
@@ -63,8 +62,6 @@ function App() {
           onPerfomSearch={onPerfomSearch}
           toProps={toProps}
           // Ещё один скользкий момент. Удалять теперь нужно не из фильтрованного списка))
-          // После добавления локал сторейджа, теперь эта функция используется так же
-          // Для изменения имени и статуса
           setFromUnfiltered={setToDo}
           />
         <AddToDo
