@@ -13,7 +13,7 @@ import Search from './components/Search/Search';
 
 function App() {
 
-  const [toDo, setToDo] = useState([])
+  const [toDo, setToDo] = useState(JSON.parse(localStorage.getItem("todoData"))?.todoData || [])
   const [filteredItem, setFilteredItem] = useState([])
 
   // Объект с настройками для вызова onPerfomSearch после фильтрации
@@ -23,8 +23,7 @@ function App() {
   // Выводить буду всегда отфильтрованные данные.
   // Если шо то не так, то будем возвращать данные с текущего стейта
   // Вызывать функцию будем в компоненте Search + в ListToDo, после фильтрации
-
-  const onPerfomSearch = (toDo, query, filter) => {
+  const onPerfomSearch = (toDo, query = "", filter = "") => {
     let newArray = [...toDo];
 
     if(filter === "") {
@@ -36,9 +35,20 @@ function App() {
       ));
     }
   
-    setFilteredItem(newArray);
+    setFilteredItem(newArray)
+    
+    saveToLocalStorage(toDo, query, filter)
   };
 
+  //Функция для сохранения данных в LocalStorage
+  const saveToLocalStorage = (todoData, query, filter) => {
+    const dataToSave = {
+      todoData,
+      query,
+      filter,
+    }
+    localStorage.setItem('todoData', JSON.stringify(dataToSave))
+  };
   
   return (
     <div className="App">
@@ -64,8 +74,7 @@ function App() {
           toProps={toProps}
           // А вот удалять, менять статус, переименовывать, нужно в оригинальном списке
           // Для этого передадим сюда эту функцию
-          setFromUnfiltered={setToDo}
-          />
+          setFromUnfiltered={setToDo}/>
         <AddToDo
           //Тут все понятно, обновляем оригинальный список 
           setToDo={setToDo}

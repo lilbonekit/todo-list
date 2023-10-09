@@ -3,8 +3,8 @@ import './Search.scss'
 
 const Search = ({toDo, onPerfomSearch, setToProps}) => {
 
-    const [query, setQuery] = useState("")
-    const [filter, setFilter] = useState("")
+    const [query, setQuery] = useState(JSON.parse(localStorage.getItem("todoData"))?.query || "")
+    const [filter, setFilter] = useState("" || JSON.parse(localStorage.getItem("todoData"))?.filter)
     
     // Передаем эти параметры выше, чтобы вызывать с ними onPerfomSearch в другом компоненте,
     // Если там произошли изменения списка

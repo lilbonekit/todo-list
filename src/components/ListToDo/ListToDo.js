@@ -51,16 +51,16 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
         setNewInputValue(title.trim())
     }
 
-    const saveToDo = (id) => {
+/*     const saveToDo = (id) => {
+
+        const todoToUpdate = toDo.find(item => item.id === id)
+
+        if (newInputValue.trim().length === 0 || newInputValue.trim().length > 50) {
+            console.error("Некорректные данные. Заголовок должен быть от 1 до 50 символов и не может быть пустым.");
+        }
+
         let newToDo = toDo.map(item => {
             if(item.id === id) {
-                if(item.title.trim() === 0) {
-                    return alert('Долбоеб имя введи блять')
-                }
-        
-                if(item.title.trim().length > 50) {
-                    return alert('Сука ну совесть имей блять')
-                }
                 item.title = newInputValue
             }
             return item
@@ -69,7 +69,31 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
         // Тоже самое, обновляем стейт нефильтрованного списка
         setFromUnfiltered(newToDo)
         setEditId(null)
+    } */
+    const saveToDo = (id) => {
+        // Получите объект todo, который нужно обновить
+        const todoToUpdate = toDo.find(item => item.id === id);
+        
+        // Проверьте условия валидации перед обновлением
+        if (newInputValue.trim().length === 0 || newInputValue.trim().length > 50) {
+            // Выведите сообщение об ошибке или выполните другие необходимые действия
+            // Например, показать пользователю сообщение о некорректных данных
+            alert('Некорректные данные. Заголовок должен быть от 1 до 50 символов и не может быть пустым')
+            console.error("Некорректные данные. Заголовок должен быть от 1 до 50 символов и не может быть пустым.");
+        } else {
+            // Если данные прошли валидацию, обновите todo с новым значением
+            const updatedTodo = {
+                ...todoToUpdate,
+                title: newInputValue.trim()
+            };
+    
+            // Обновите состояние списка с учетом нового todo
+            const updatedToDoList = toDo.map(item => (item.id === id ? updatedTodo : item));
+            setFromUnfiltered(updatedToDoList);
+            setEditId(null);
+        }
     }
+    
 
 
     const message = toDo.length === 0 ? <Messages messageText={"No items"}/> : null
