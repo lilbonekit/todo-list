@@ -7,14 +7,25 @@ const AddToDo = ({setToDo, toDo}) => {
 
     const [inputValue, setInputValue] = useState('')
     
+    
     // Делаем инпут управляемым
     // При онКлике обновляем стейт с инпута
     // Для уникального id используем библиотеку uuid
+    // Делаем валидации от шутников
 
     const saveToDo = () => {
+
+        if(inputValue.trim().length === 0) {
+            return alert('ебалай')
+        }
+
+        if(inputValue.trim().length > 50) {
+            return alert('Ну совесть блять имей пидорас нахуй')
+        }
+
         setToDo([...toDo, {
             id: uuidv4(),
-            title: inputValue,
+            title: inputValue.trim(),
             status: false
         }])
 
@@ -25,7 +36,7 @@ const AddToDo = ({setToDo, toDo}) => {
         <div className="add-to-do">
             <input 
                 type="text" 
-                placeholder="Name your task"
+                placeholder="Add your task"
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}/>
             <button onClick={saveToDo}>Save</button>

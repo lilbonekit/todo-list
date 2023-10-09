@@ -11,3 +11,11 @@
         width: 100%;
     }
 }
+
+@media (max-width: 576px) {
+    .btns {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

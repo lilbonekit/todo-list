@@ -38,30 +38,34 @@ function App() {
   
     setFilteredItem(newArray);
   };
-  
 
+  // Весь LocalStorage удалось реализовать в компоненте поиска
+  
   return (
     <div className="App">
         <Header
           toDo={toDo}/>
         <Search
+          // Передали setToDo, чтобы использовать в LS при инициализации 
+          setToDo={setToDo}
           onPerfomSearch={onPerfomSearch}
           toDo={toDo}
-          filteredItem={filteredItem}
           setToProps={setToProps}/>
         <ListToDo
           setToDo={setFilteredItem}
           toDo={filteredItem}
           // Тут блять очень скользкий момент,
           // Если я хочу функционал с тоглом активности в фильтрах,
-          // То мне нужно обновлять стейт с отфильтрованными данными
+          // То мне нужно обновлять стейт с отфильтрованными данными (вызвать onPerfomSearch)
           // Но тут встаёт вопрос, а как мне вызвать onPerfomSearch еще раз после фильтрации?
           // Я создал для этого еще один стейт с параметрами,
           // чтобы передавать их вместе с onPerfomSearch
           onPerfomSearch={onPerfomSearch}
           toProps={toProps}
           // Ещё один скользкий момент. Удалять теперь нужно не из фильтрованного списка))
-          deleteFromUnfiltered={setToDo}
+          // После добавления локал сторейджа, теперь эта функция используется так же
+          // Для изменения имени и статуса
+          setFromUnfiltered={setToDo}
           />
         <AddToDo
           setToDo={setToDo}
