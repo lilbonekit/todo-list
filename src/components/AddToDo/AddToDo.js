@@ -8,6 +8,7 @@ const AddToDo = ({setToDo, toDo}) => {
     const [inputValue, setInputValue] = useState('')
 
     // Добавлю еще состояние для ошибки инпута. Этот код повториться в ListToDo
+    // Если проект разростался бы, то лучше бы вынести эту логику
     const [inputError, setInputError] = useState(false)
     
     // Делаем инпут управляемым

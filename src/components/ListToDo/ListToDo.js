@@ -20,7 +20,6 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
     // Установим состояния ошибки инпута
     const [inputError, setInputError] = useState(false)
 
-    
     // Изменение статуса
     const statusToDo = (id) => {
         let newToDo = toDo.filter(item => {
@@ -32,7 +31,7 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
 
         // Тоже самое, обновляем стейт нефильтрованного списка
         setFromUnfiltered(newToDo)
-        // Это сработало
+        // Выполняем фильтрацию снова, поскольку мы изменили стейт нефильтрованного списка
         onPerfomSearch(newToDo, query, filter)
     }
 
@@ -45,32 +44,33 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
     }
 
     const saveToDo = (id) => {
-        // Получите объект todo, который нужно обновить
+        // Начальный фильтрованный список, 
+        // можно и не фильтрованный, id то все равно уникальный
         const todoToUpdate = toDo.find(item => item.id === id);
         
-        // Проверьте условия валидации перед обновлением
+        // Валидация
         if (newInputValue.trim().length === 0 || newInputValue.trim().length > 50) {
             setInputError(true)
             return
         } else {
-            // Если данные прошли валидацию, обновите todo с новым значением
+            // Если данные прошли валидацию, то добавляем их в начало
+            // Так красивее мне кажется
             const updatedTodo = {
                 ...todoToUpdate,
                 title: newInputValue.trim()
             };
     
-            // Обновите состояние списка с учетом нового todo
+            // Новый стейт, но обновляем нефильтрованный стейт
             const updatedToDoList = toDo.map(item => (item.id === id ? updatedTodo : item));
             setFromUnfiltered(updatedToDoList);
+            // Сбрасываем редактирование
             setEditId(null);
         }
     }
     
 
 
-    const message = toDo.length === 0 ? 
-    <Messages/> :
-    null
+    const message = toDo.length === 0
 
     return(
         <> 
@@ -146,9 +146,7 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
             <CSSTransition
                 in={message} 
                 classNames="message"
-                timeout={500}
-                // Оставил компонент не размонтированным, чтобы верстка не прыгала
-                /* unmountOnExit */>
+                timeout={500}>
                 <Messages>
                     <h2 className="message">No items</h2>
                 </Messages>

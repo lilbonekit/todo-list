@@ -13,11 +13,12 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
             query,
             filter
         })
-    }, [query, filter])
+    }, [query, filter, setToProps])
 
     // Выполняем фильрацию, при изменениях этих параметров
     useEffect(() => {
         onPerfomSearch(toDo, query, filter)
+        // eslint-disable-next-line
     }, [toDo, filter, query])
 
     return(
