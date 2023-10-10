@@ -13,6 +13,7 @@ import ModalWindow from './components/ModalWindow/ModalWindow';
 
 function App() {
 
+  // Или вытягиваем с localStorage или берём другое инициальное значение
   const [toDo, setToDo] = useState(JSON.parse(localStorage.getItem("todoData"))?.todoData || [])
   const [filteredItem, setFilteredItem] = useState([])
 
@@ -29,14 +30,13 @@ function App() {
   const deleteToDo = (id) => {
     let newToDo = toDo.filter(item => item.id !== id)
 
-    // Это сработало
     setToDo(newToDo)
   }
 
   // Напишу функцию для поиска и фильтров.
   // Выводить буду всегда отфильтрованные данные.
   // Если шо то не так, то будем возвращать данные с текущего стейта
-  // Вызывать функцию будем в компоненте Search + в ListToDo, после фильтрации
+  // Вызывать функцию будем в компонентах Search + в ListToDo, после фильтрации
   const onPerfomSearch = (toDo, query = "", filter = "") => {
     let newArray = [...toDo];
 
@@ -67,6 +67,9 @@ function App() {
   return (
     <div className="App">
         <ModalWindow
+          //В модалку был перенесен функционал с удалением
+          //Перед удалением нам нужно получить id элемента, который нужно удалить
+          // deletedId получаем из ListToDo, передав туда setDeletedId 
           deleteToDo={deleteToDo}
           deletedId={deletedId}
           showDeleteModal={showDeleteModal}
@@ -82,8 +85,9 @@ function App() {
           toDo={toDo}
           setToProps={setToProps}/>
         <ListToDo
-          // Переносим выше метод с удалением, но нам все равно нужно получить айди
-          // И так же мне нужно установить модалку для удаления активной
+          // Переносим выше метод с удалением, 
+          // но нам все равно нужно получить айди, удаляемого элемента
+          // И так же мне нужно установить модалку активной
           setDeletedId={setDeletedId}
           setShowDeleteModal={setShowDeleteModal}
           // Отображаем отфильтроавнные данные на основе изначальных

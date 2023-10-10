@@ -18,11 +18,13 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
     // Выполняем фильрацию, при изменениях этих параметров
     useEffect(() => {
         onPerfomSearch(toDo, query, filter)
-    }, [toDo, filter, query, onPerfomSearch ])
+        // eslint-disable-next-line
+    }, [toDo, filter, query])
 
     return(
         <div className="search-panel">
             <input type="text"
+                   placeholder="Search..."
                    value={query}
                    onChange={e => {
                         setQuery(e.target.value)
