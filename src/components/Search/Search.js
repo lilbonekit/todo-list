@@ -8,17 +8,16 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
     
     // Передаем эти параметры выше, чтобы вызывать с ними onPerfomSearch в другом компоненте,
     // Если там произошли изменения списка
-    useEffect(() => {
-        setToProps({
-            query,
-            filter
-        })
-    }, [query, filter])
+    //useEffect(() => {
+    //    setToProps({
+    //        query,
+    //        filter
+    ////}, [query, filter])
 
     // Выполняем фильрацию, при изменениях этих параметров
-    useEffect(() => {
-        onPerfomSearch(toDo, query, filter)
-    }, [toDo, filter, query])
+    //useEffect(() => {
+    //    onPerfomSearch(toDo, query, filter)
+    //}, [toDo, filter, query])
 
     return(
         <div className="search-panel">
