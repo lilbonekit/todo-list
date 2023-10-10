@@ -14,6 +14,7 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
             filter
         })
     }, [query, filter, setToProps])
+    // TEST
 
     // Выполняем фильрацию, при изменениях этих параметров
     useEffect(() => {
