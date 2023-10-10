@@ -13,12 +13,12 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
             query,
             filter
         })
-    }, [query, filter])
+    }, [query, filter, setToProps])
 
     // Выполняем фильрацию, при изменениях этих параметров
     useEffect(() => {
         onPerfomSearch(toDo, query, filter)
-    }, [toDo, filter, query])
+    }, [toDo, filter, query, onPerfomSearch ])
 
     return(
         <div className="search-panel">
