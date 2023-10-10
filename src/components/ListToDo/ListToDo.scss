@@ -1,0 +1,125 @@
+.to-do-list {
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+    overflow: auto;
+    overflow-x: hidden;
+    max-height: 360px;
+    min-height: 360px;
+    border: #c7c7c7 0.5px solid;
+    position: relative;
+    h4 {
+        word-wrap: break-word;
+        width: 60%;
+        padding-right: 10px;
+    }
+    .done {
+        background-color: #e0dfdf;
+        h4 {
+            text-decoration: line-through;
+            color:#979797;
+        }
+    }
+    .edit {
+        background-color:#fbfae0;
+        height: 81px;
+        justify-content: flex-end;
+    }
+    .edit-mode {
+        display: flex;
+        gap: 5px;
+        input {
+            padding: 10px;
+            border-radius: 3px;
+            border: #c7c7c7 0.5px solid;
+            outline: none;
+            width: 60%;
+        }
+        button {
+            font-size: 14px;
+            min-width: 100px;
+            color: white;
+            background-color: #2d2d2d;
+            padding: 5px;
+            border-radius: 3px;
+            border: none;
+            height: 40px;
+        }
+    }
+    .btns {
+        display: flex;
+        gap: 10px;
+        [data-button="delete"] {
+            background-color: #c72626;
+        }
+        button {
+            font-size: 14px;
+            color: white;
+            background-color: #2d2d2d;
+            padding: 5px;
+            border-radius: 3px;
+            border: none;
+            height: 40px;
+            display: flex;
+            flex-wrap: pre-wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+    }
+    li {
+        justify-content: center;
+        align-items: center;
+        border-bottom: #c7c7c7 0.5px solid;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        // background-color: rgba(227, 227, 227, 0.5);
+        padding: 10px;
+        width: 100%;
+    }
+}
+
+.empty {
+    visibility: hidden;
+    max-height: 0px;
+    min-height: 0px;
+}
+
+.list-enter {
+    opacity: 0;
+    transform: scale(0.9) translateX(500px);
+}
+.list-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 500ms;
+}
+.list-exit {
+    opacity: 1;
+}
+.list-exit-active {
+    opacity: 0;
+    transform: scale(0.9) translateX(500px);
+    transition: opacity 300ms, transform 500ms;
+}
+
+@media (max-width: 576px) {
+    .to-do-list {
+        button {
+            min-width: 40px;
+        }
+            p {
+            display: none;
+        }
+        .edit {
+            background-color:#fbfae0;
+            height: 81px;
+            justify-content: center;
+            &-mode {
+                width: 100%;
+            }
+        }
+    }
+}
+  
