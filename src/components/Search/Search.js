@@ -23,6 +23,7 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
     return(
         <div className="search-panel">
             <input type="text"
+                   placeholder="Search..."
                    value={query}
                    onChange={e => {
                         setQuery(e.target.value)
