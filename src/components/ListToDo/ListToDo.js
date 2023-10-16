@@ -4,7 +4,7 @@ import './ListToDo.scss'
 // Использую для этого React transition group
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 // Иконки SVG
 import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
@@ -12,7 +12,7 @@ import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
 // Добавим смски
 import Messages from '../Messages/Messages'
 
-const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered, setDeletedId, setShowDeleteModal}) => {
+const ListToDo = memo(({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered, setDeletedId, setShowDeleteModal}) => {
 
     const [editId, setEditId] = useState(null)
     const [newInputValue, setNewInputValue] = useState("")
@@ -74,24 +74,24 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
 
     return(
         <> 
-            <TransitionGroup className={`to-do-list ${message ? "empty" : null}`}>
+            <TransitionGroup className={`to-do-list ${message ? 'empty' : null}`}>
                 {
                     toDo.map(item => {
                     
                         // Некоторые классы
-                        const isDone = item.status ? "done" : ''
-                        const isEditing = item.id === editId ? "edit" : ''
+                        const isDone = item.status ? 'done' : ''
+                        const isEditing = item.id === editId ? 'edit' : ''
 
                         return <CSSTransition
                                 key={item.id}
-                                classNames="list"
+                                classNames='list'
                                 timeout={500}>
                                 <li className={`list ${isDone} ${isEditing}`}>
                                 {
                                     editId === item.id ?
-                                    <div className="edit-mode">
+                                    <div className='edit-mode'>
                                         <input
-                                            className={inputError ? "error" : null} 
+                                            className={inputError ? 'error' : null} 
                                             value={newInputValue} 
                                             onChange={e => {
                                                     setNewInputValue(e.target.value)
@@ -100,20 +100,20 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                                         <button onClick={() => saveToDo(item.id)}>Save</button>
                                         <button onClick={() => setEditId(null)}>Discard</button>
                                     </div>  :
-                                    <h4 className="list-to-do__item">{item.title}</h4>
+                                    <h4 className='list-to-do__item'>{item.title}</h4>
                                 }
                                 {
                                     editId === item.id ?
                                     <></> :
-                                    <div className="btns">
+                                    <div className='btns'>
                                         <button
-                                            data-button="edit" 
+                                            data-button='edit' 
                                             onClick={() => editToDo(item.id, item.title)}>
                                                 <EditIcon/>
                                                 <p>Edit</p>
                                         </button>
                                         <button
-                                            data-button="status" 
+                                            data-button='status' 
                                             onClick={() => statusToDo(item.id)}>
                                                 {
                                                     isDone ?
@@ -128,7 +128,7 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                                                 }
                                         </button>
                                         <button
-                                            data-button="delete" 
+                                            data-button='delete' 
                                             onClick={() => {
                                                     setDeletedId(item.id)
                                                     setShowDeleteModal(true)
@@ -145,14 +145,14 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
             </TransitionGroup>
             <CSSTransition
                 in={message} 
-                classNames="message"
+                classNames='message'
                 timeout={500}>
                 <Messages>
-                    <h2 className="message">No items</h2>
+                    <h2 className='message'>No items</h2>
                 </Messages>
             </CSSTransition>
         </>
     )
-}
+})
 
 export default ListToDo

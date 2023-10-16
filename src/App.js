@@ -1,6 +1,6 @@
 import './App.scss';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import Header from './components/Header/Header';
 import AddToDo from './components/AddToDo/AddToDo';
@@ -11,10 +11,13 @@ import ModalWindow from './components/ModalWindow/ModalWindow';
 // Поскольку работать со стейтом будет каждый компонент,
 // то нужно хранить его где-то высоко
 
+// useCallback для предотвращения лишнего пересоздания функций
+// memo в ListToDo для предотвращения перерисовки компонента, если его пропсы не изменились
+
 function App() {
 
   // Или вытягиваем с localStorage или берём другое инициальное значение
-  const [toDo, setToDo] = useState(JSON.parse(localStorage.getItem("todoData"))?.todoData || [])
+  const [toDo, setToDo] = useState(JSON.parse(localStorage.getItem('todoData'))?.todoData || [])
   const [filteredItem, setFilteredItem] = useState([])
 
   // Объект с настройками для вызова onPerfomSearch после фильтрации
@@ -27,17 +30,17 @@ function App() {
   // Функции по удалению, редактированию пишем здесь
   // Лучше, чтобы айди был изначально, а не задавать его в мэп, а то будет поебота потом
   // Удалять из нефильтрованного списка
-  const deleteToDo = (id) => {
+  const deleteToDo = useCallback((id) => {
     let newToDo = toDo.filter(item => item.id !== id)
 
     setToDo(newToDo)
-  }
+  }, [toDo])
 
   // Напишу функцию для поиска и фильтров.
   // Выводить буду всегда отфильтрованные данные.
   // Если шо то не так, то будем возвращать данные с текущего стейта
   // Вызывать функцию будем в компонентах Search + в ListToDo, после фильтрации
-  const onPerfomSearch = (toDo, query = "", filter = "") => {
+  const onPerfomSearch = useCallback((toDo, query = "", filter = "") => {
     let newArray = [...toDo];
 
     if(filter === "") {
@@ -52,17 +55,17 @@ function App() {
     setFilteredItem(newArray)
     
     saveToLocalStorage(toDo, query, filter)
-  };
+  }, []);
 
   //Функция для сохранения данных в LocalStorage
-  const saveToLocalStorage = (todoData, query, filter) => {
+  const saveToLocalStorage = useCallback((todoData, query, filter) => {
     const dataToSave = {
       todoData,
       query,
       filter,
     }
     localStorage.setItem('todoData', JSON.stringify(dataToSave))
-  };
+  }, []);
   
   return (
     <div className="App">
