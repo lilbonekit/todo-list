@@ -4,7 +4,7 @@ import './ListToDo.scss'
 // Использую для этого React transition group
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 // Иконки SVG
 import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
@@ -12,7 +12,7 @@ import { CloseIcon, OpenIcon, EditIcon, DeleteIcon } from '../SVGs/Svgs'
 // Добавим смски
 import Messages from '../Messages/Messages'
 
-const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered, setDeletedId, setShowDeleteModal}) => {
+const ListToDo = memo(({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfiltered, setDeletedId, setShowDeleteModal}) => {
 
     const [editId, setEditId] = useState(null)
     const [newInputValue, setNewInputValue] = useState("")
@@ -20,7 +20,6 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
     // Установим состояния ошибки инпута
     const [inputError, setInputError] = useState(false)
 
-    
     // Изменение статуса
     const statusToDo = (id) => {
         let newToDo = toDo.filter(item => {
@@ -32,7 +31,7 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
 
         // Тоже самое, обновляем стейт нефильтрованного списка
         setFromUnfiltered(newToDo)
-        // Это сработало
+        // Выполняем фильтрацию снова, поскольку мы изменили стейт нефильтрованного списка
         onPerfomSearch(newToDo, query, filter)
     }
 
@@ -45,53 +44,54 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
     }
 
     const saveToDo = (id) => {
-        // Получите объект todo, который нужно обновить
+        // Начальный фильтрованный список, 
+        // можно и не фильтрованный, id то все равно уникальный
         const todoToUpdate = toDo.find(item => item.id === id);
         
-        // Проверьте условия валидации перед обновлением
+        // Валидация
         if (newInputValue.trim().length === 0 || newInputValue.trim().length > 50) {
             setInputError(true)
             return
         } else {
-            // Если данные прошли валидацию, обновите todo с новым значением
+            // Если данные прошли валидацию, то добавляем их в начало
+            // Так красивее мне кажется
             const updatedTodo = {
                 ...todoToUpdate,
                 title: newInputValue.trim()
             };
     
-            // Обновите состояние списка с учетом нового todo
+            // Новый стейт, но обновляем нефильтрованный стейт
             const updatedToDoList = toDo.map(item => (item.id === id ? updatedTodo : item));
             setFromUnfiltered(updatedToDoList);
+            // Сбрасываем редактирование
             setEditId(null);
         }
     }
     
 
 
-    const message = toDo.length === 0 ? 
-    <Messages/> :
-    null
+    const message = toDo.length === 0
 
     return(
         <> 
-            <TransitionGroup className={`to-do-list ${message ? "empty" : null}`}>
+            <TransitionGroup className={`to-do-list ${message ? 'empty' : null}`}>
                 {
                     toDo.map(item => {
                     
                         // Некоторые классы
-                        const isDone = item.status ? "done" : ''
-                        const isEditing = item.id === editId ? "edit" : ''
+                        const isDone = item.status ? 'done' : ''
+                        const isEditing = item.id === editId ? 'edit' : ''
 
                         return <CSSTransition
                                 key={item.id}
-                                classNames="list"
+                                classNames='list'
                                 timeout={500}>
                                 <li className={`list ${isDone} ${isEditing}`}>
                                 {
                                     editId === item.id ?
-                                    <div className="edit-mode">
+                                    <div className='edit-mode'>
                                         <input
-                                            className={inputError ? "error" : null} 
+                                            className={inputError ? 'error' : null} 
                                             value={newInputValue} 
                                             onChange={e => {
                                                     setNewInputValue(e.target.value)
@@ -100,20 +100,20 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                                         <button onClick={() => saveToDo(item.id)}>Save</button>
                                         <button onClick={() => setEditId(null)}>Discard</button>
                                     </div>  :
-                                    <h4 className="list-to-do__item">{item.title}</h4>
+                                    <h4 className='list-to-do__item'>{item.title}</h4>
                                 }
                                 {
                                     editId === item.id ?
                                     <></> :
-                                    <div className="btns">
+                                    <div className='btns'>
                                         <button
-                                            data-button="edit" 
+                                            data-button='edit' 
                                             onClick={() => editToDo(item.id, item.title)}>
                                                 <EditIcon/>
                                                 <p>Edit</p>
                                         </button>
                                         <button
-                                            data-button="status" 
+                                            data-button='status' 
                                             onClick={() => statusToDo(item.id)}>
                                                 {
                                                     isDone ?
@@ -128,7 +128,7 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
                                                 }
                                         </button>
                                         <button
-                                            data-button="delete" 
+                                            data-button='delete' 
                                             onClick={() => {
                                                     setDeletedId(item.id)
                                                     setShowDeleteModal(true)
@@ -145,16 +145,14 @@ const ListToDo = ({toDo, onPerfomSearch, toProps: { filter, query }, setFromUnfi
             </TransitionGroup>
             <CSSTransition
                 in={message} 
-                classNames="message"
-                timeout={500}
-                // Оставил компонент не размонтированным, чтобы верстка не прыгала
-                /* unmountOnExit */>
+                classNames='message'
+                timeout={500}>
                 <Messages>
-                    <h2 className="message">No items</h2>
+                    <h2 className='message'>No items</h2>
                 </Messages>
             </CSSTransition>
         </>
     )
-}
+})
 
 export default ListToDo
