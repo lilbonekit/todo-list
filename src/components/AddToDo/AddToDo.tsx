@@ -3,7 +3,14 @@ import './AddToDo.scss'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
 
-const AddToDo = ({setToDo, toDo}) => {
+import { ITodo } from '../../interface/interface'
+
+interface IAddToDoProps {
+    setToDo: (toDo: ITodo[]) => void
+    toDo: ITodo[]
+}
+
+const AddToDo:React.FC<IAddToDoProps> = ({setToDo, toDo}) => {
 
     const [inputValue, setInputValue] = useState('')
 

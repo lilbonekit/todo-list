@@ -2,7 +2,22 @@ import './ModalWindow.scss'
 
 import { CSSTransition } from 'react-transition-group';
 
-const ModalWindow = ({showDeleteModal, setShowDeleteModal, deleteToDo, deletedId}) => {
+interface IModalWindow {
+	showDeleteModal: boolean
+	setShowDeleteModal: (isShown:boolean) => void
+	deleteToDo: (id: string) => void
+	deletedId: null | string
+}
+
+const ModalWindow:React.FC<IModalWindow> = ({showDeleteModal, setShowDeleteModal, deleteToDo, deletedId}) => {
+
+	const handleDelete = () => {
+		if(deletedId !== null) {
+			deleteToDo(deletedId)
+			setShowDeleteModal(false)
+		}
+	}
+
     return (
         <CSSTransition
           in={showDeleteModal}
@@ -23,10 +38,7 @@ const ModalWindow = ({showDeleteModal, setShowDeleteModal, deleteToDo, deletedId
                     Cancel
                 </button>
                 <button
-                    onClick={() => {
-                        deleteToDo(deletedId)
-                        setShowDeleteModal(false)
-                    }} 
+                    onClick={handleDelete} 
                   className="black_btn">
                     Delete
                 </button>

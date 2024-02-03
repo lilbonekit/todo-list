@@ -10,22 +10,27 @@
 .message-enter {
     opacity: 0;
     transform: scale(0.9) translateY(-500px);
-  }
-  .message-enter-active {
+}
+
+.message-enter-active {
     opacity: 0.5;
     transform: translateY(0);
-    transition: opacity 300ms, transform 300ms;
-  }
-  .message-exit {
+    transition:
+        opacity 300ms,
+        transform 300ms;
+}
+
+.message-exit {
     opacity: 0.5;
     transform: scale(0.9) translateY(-500px);
-  }
-  .message-exit-active {
+}
+.message-exit-active {
     opacity: 0;
     transform: scale(0.9) translateY(-500px);
-    transition: opacity 300ms, transform 300ms;
-  }
-  .message-exit-done {
+    transition:
+        opacity 300ms,
+        transform 300ms;
+}
+.message-exit-done {
     opacity: 0;
-  }
-  
+}

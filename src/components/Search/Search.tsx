@@ -1,10 +1,22 @@
 import { useState, useEffect } from 'react'
 import './Search.scss'
 
-const Search = ({toDo, onPerfomSearch, setToProps}) => {
+import { ITodo, IToProps } from '../../interface/interface'
 
-    const [query, setQuery] = useState(JSON.parse(localStorage.getItem("todoData"))?.query || "")
-    const [filter, setFilter] = useState("" || JSON.parse(localStorage.getItem("todoData"))?.filter)
+interface ISearchProps {
+    toDo: ITodo[]
+    onPerfomSearch: (toDo: ITodo[], query: string, filter: boolean | string) => void
+    setToProps: (IToProps: IToProps) => void
+}
+
+const Search:React.FC<ISearchProps> = ({toDo, onPerfomSearch, setToProps}) => {
+
+    const [query, setQuery] = useState("")
+    const [filter, setFilter] = useState<boolean | string>("")
+
+    // Закоментил, а то это скорее мешало
+    // const [query, setQuery] = useState(JSON.parse(localStorage.getItem("todoData"))?.query || "")
+    // const [filter, setFilter] = useState("" || JSON.parse(localStorage.getItem("todoData"))?.filter)
     
     // Передаем эти параметры выше, чтобы вызывать с ними onPerfomSearch в другом компоненте,
     // Если там произошли изменения списка
@@ -14,7 +26,6 @@ const Search = ({toDo, onPerfomSearch, setToProps}) => {
             filter
         })
     }, [query, filter, setToProps])
-    // TEST
 
     // Выполняем фильрацию, при изменениях этих параметров
     useEffect(() => {
