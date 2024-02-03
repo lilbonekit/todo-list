@@ -11,7 +11,7 @@ import ModalWindow from './components/ModalWindow/ModalWindow';
 // Поскольку работать со стейтом будет каждый компонент,
 // то нужно хранить его где-то высоко
 
-function App() {
+const App = () => {
 
   const [toDo, setToDo] = useState(JSON.parse(localStorage.getItem("todoData"))?.todoData || [])
   const [filteredItem, setFilteredItem] = useState([])
