@@ -55,6 +55,7 @@ const App = () => {
     setFilteredItem(newArray)
     
     saveToLocalStorage(toDo, query, filter)
+    // eslint-disable-next-line
   }, []);
 
   //Функция для сохранения данных в LocalStorage
